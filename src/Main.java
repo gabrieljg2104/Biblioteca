@@ -1,71 +1,68 @@
-import java.util.ArrayList;
+
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Livro> biblioteca = new ArrayList<>();
+        Biblioteca biblioteca = new Biblioteca();
 
         Livro livro1 = new Livro();
-
         livro1.titulo = "O Senhor dos Anéis";
         livro1.autor = "J.R.R. Tolkien";
         livro1.anoPublicacao = 1954;
         livro1.disponivel = true;
 
         Livro livro2 = new Livro();
-
         livro2.titulo = "1984";
         livro2.autor = "George Orwell";
         livro2.anoPublicacao = 1949;
         livro2.disponivel = true;
 
-        Livro livro3 = new Livro();
-        livro3.titulo = "Dom Casmurro";
-        livro3.autor = "Machado de Assis";
-        livro3.anoPublicacao = 1899;
-        livro3.disponivel = false;
-
-        biblioteca.add(livro1);
-        biblioteca.add(livro2);
-        biblioteca.add(livro3);
+        biblioteca.adicionarLivro(livro1);
+        biblioteca.adicionarLivro(livro2);
 
         int opcao;
         do {
-            System.out.println("===== Menu Biblioteca =====");
-            System.out.println("1. Listar todos os livros disponiveis");
+            System.out.println("\n===== MENU BIBLIOTECA =====");
+            System.out.println("1. Listar todos os livros");
             System.out.println("2. Emprestar um livro");
             System.out.println("3. Devolver um livro");
+            System.out.println("4. Cadastrar novo livro");
             System.out.println("0. Sair");
+            System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1:
-                    System.out.println("\n=== Lista de Livros ===");
-                    for (int i = 0; i < biblioteca.size(); i++) {
-                        System.out.println("ID " + i + ":");
-                        biblioteca.get(i).exibirInformacoes();
-                    }
+                    biblioteca.listarLivros();
                     break;
 
                 case 2:
-                    System.out.println("Digite o ID do livro para emprestar: ");
+                    System.out.print("Digite o ID do livro para emprestar: ");
                     int idEmprestar = scanner.nextInt();
-                    if (idEmprestar >= 0 && idEmprestar < biblioteca.size()) {
-                        biblioteca.get(idEmprestar).emprestarLivro();
-                    } else {
-                        System.out.println("ID inválido");
-                    }
+                    biblioteca.emprestarLivro(idEmprestar);
                     break;
 
                 case 3:
-                    System.out.println("Digite o ID do livro para devolver: ");
+                    System.out.print("Digite o ID do livro para devolver: ");
                     int idDevolver = scanner.nextInt();
-                    if (idDevolver >= 0 && idDevolver < biblioteca.size()) {
-                        biblioteca.get(idDevolver).devolverLivro();
-                    } else {
-                        System.out.println("ID inválido");
-                    }
+                    biblioteca.devolverLivro(idDevolver);
+                    break;
+
+                case 4:
+                    Livro novoLivro = new Livro();
+                    System.out.print("Título: ");
+                    novoLivro.titulo = scanner.nextLine();
+                    System.out.print("Autor: ");
+                    novoLivro.autor = scanner.nextLine();
+                    System.out.print("Ano de publicação: ");
+                    novoLivro.anoPublicacao = scanner.nextInt();
+                    novoLivro.disponivel = true;
+                    scanner.nextLine();
+                    biblioteca.adicionarLivro(novoLivro);
+                    System.out.println("Livro cadastrado com sucesso!");
                     break;
 
                 case 0:
@@ -73,7 +70,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Opção inválida. Tente novamente.");
+                    System.out.println("Opção inválida.");
             }
         } while (opcao != 0);
 
